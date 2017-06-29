@@ -1,5 +1,4 @@
-# Using the Microsoft Graph API ecosystem with Azure Functions
-### Extending the Graph infrastructure with serverless APIs
+# Using Azure Functions to expand the Microsoft Graph API ecosystem
 
 ## Table of contents
 
