@@ -27,96 +27,50 @@ This sample requires the following:
   * [Visual Studio 2015](https://www.visualstudio.com/en-us/downloads) 
   * Either a [Microsoft account](https://www.outlook.com) or an [Office 365 for business account](https://msdn.microsoft.com/en-us/office/office365/howto/setup-development-environment#bk_Office365Account). An Office 365 administrator account is required to run admin-level operations. You can sign up for [an Office 365 Developer subscription](https://msdn.microsoft.com/en-us/office/office365/howto/setup-development-environment#bk_Office365Account) that includes the resources that you need to start building apps.
 
-## Register the application
 
-1. Sign into the [App Registration Portal](https://apps.dev.microsoft.com/) using either your personal or work or school account.
+#### 1. Setup
+* Clone this repo
 
-2. Choose **Add an app**.
+![git clone link](screenshots/clone-link.PNG)
+* Install Node.js (if you haven't)
+* ```npm install``` to install project dependencies after moving into the project directory
+* ``` npm run build ``` to start TypeScript compiler and watch for changes (leave this open in another console)
 
-3. Enter a name for the app, and choose **Create application**. 
-	
-   The registration page displays, listing the properties of your app.
+#### 2. App registration
 
-4. Copy the Application Id. This is the unique identifier for your app. 
+* Register your application at https://apps.dev.microsoft.com/
+* Add `http://localhost:3000` as a redirect URL under Platforms -> web
+* Add Application permissions (Directory.ReadWrite.All, Calendars.Read, User.ReadWrite.All, Mail.Send)
+* Update `secrets.ts` with your application id
+* Update `secrets.ts` with an app secret (click 'generate new password')
+* Update `secrets.ts` with your tenant domain like `MOD507192.onmicrosoft.com`
 
-5. Under **Application Secrets**, choose **Generate New Password**. Copy the password from the **New password generated** dialog.
+#### 3. Allow your app running as a service to access Graph
 
-   You'll need to enter the app Id and app secret values that you copied into the sample app. 
+* Visit `https://login.microsoftonline.com/common/adminconsent?client_id=YOUR_APP_ID&state=12345&redirect_uri=http://localhost:3000` and grant the app access. Replace `YOUR_APP_ID`. After granting access you will be redirected to `localhost:3000` and nothing is running there, which is expected.
 
-6. Under **Platforms**, choose **Add platform**.
+#### 4. Deploy to Azure Functions
 
-7. Choose **Web**.
+* Create an Azure function app at https://portal.azure.com and create a new 'Function App'
+![create function app by searching](screenshots/azure-function-search.png)
+![create function app](screenshots/create-function-app.png)
+* You may need to setup credentials under `Platform Features / Code Deployment / Deployment Credentials`
+* Configure your app to allow Git deployments
+   * Under `Platform features` select `Deployment Options` and choose `Local Git Repository` as the source.
+* Add your Function as a git remote
+   * Under `General Settings` -> `Properties`, select your `Git Url`
+   * `git remote add azure YOUR_GIT_URL`
+* Push a deployment
+  * (Make sure TypeScript recompiled after you updated your secrets file with npm run build. You should be seeing messages like 'Compilation complete' when you save the .ts files.)
+  * `git add .`, `git commit -m 'Initial commit'`, `git push azure master` 
 
-8. Make sure the **Allow Implicit Flow** check box is selected, and enter *https://localhost:44300/* as the Redirect URI. 
+#### 5. Verify deployment and run the function!
+* Since this starter project uses an HTTP trigger function, you can get a URL to execute your code. Click `Get function URL`, and open in a new tab. You can find this link by expanding the Functions panel in the left sidebar and clicking on our function.
 
-   The **Allow Implicit Flow** option enables the hybrid flow. During authentication, this enables the app to receive both sign-in info (the id_token) and artifacts (in this case, an authorization code) that the app can use to obtain an access token.
+![get function url button](screenshots/get-function-url.png)
 
-9. Choose **Save**.
- 
- 
-## Build and run the sample
+* Check the logs and your function should be running!
 
-1. Download or clone the Microsoft Graph Snippets Sample for ASP.NET 4.6.
-
-2. Open the sample solution in Visual Studio.
-
-3. In the Web.config file in the root directory, replace the **ida:AppId** and **ida:AppSecret** placeholder values with the values that you copied during app registration.
-
-4. Press F5 to build and run the sample. This will restore the NuGet package dependencies and open the app.
-
-   >If you see any errors while installing packages, make sure the local path where you placed the solution is not too long/deep. Moving the solution closer to the root of your drive may resolve this issue.
-
-5. Sign in with your personal account (MSA) or your work or school account, and grant the requested permissions. 
-
-6. Choose a snippets category, such as Users, Files, or Mail. 
-
-7. Choose an operation you want to run. Note the following:
-  - Operations that require an argument (such as ID) are disabled until you run a snippet that lets you select an entity. 
-
-  - Some snippets (marked as *admin-only*) require commercial permission scopes that can only be granted by an administrator. To run these snippets, you need to sign in as an admin and then use the link on the *Admin scopes* tab to consent to the admin-level scopes. This tab is not available for users who are logged in with personal accounts.
-   
-  - If you logged in with a personal account, snippets that aren't supported for Microsoft accounts are disabled..
-   
-Response information is displayed at the bottom of the page.
-
-### How the sample affects your account data
-
-This sample creates, updates, and deletes entities and data (such as users or files). Depending on how you use it, **you might edit or delete actual entities and data** and leave data artifacts. 
-
-To use the sample without modifying your actual account data, be sure to perform update and delete operations only on entities that are created by the sample. 
-
-
-## Code of note
-
-- [Startup.Auth.cs](/Graph-ASPNET-46-Snippets/Microsoft%20Graph%20ASPNET%20Snippets/App_Start/Startup.Auth.cs). Authenticates the current user and initializes the sample's token cache.
-
-- [SessionTokenCache.cs](/Graph-ASPNET-46-Snippets/Microsoft%20Graph%20ASPNET%20Snippets/TokenStorage/SessionTokenCache.cs). Stores the user's token information. You can replace this with your own custom token cache. Learn more in [Caching access tokens in a multitenant application](https://azure.microsoft.com/en-us/documentation/articles/guidance-multitenant-identity-token-cache/).
-
-- [SampleAuthProvider.cs](/Graph-ASPNET-46-Snippets/Microsoft%20Graph%20ASPNET%20Snippets/Helpers/SampleAuthProvider.cs). Implements the local IAuthProvider interface, and gets an access token by using the **AcquireTokenSilentAsync** method. You can replace this with your own authorization provider. 
-
-- [SDKHelper.cs](/Graph-ASPNET-46-Snippets/Microsoft%20Graph%20ASPNET%20Snippets/Helpers/SDKHelper.cs). Initializes the **GraphServiceClient** from the [Microsoft Graph .NET Client Library](https://github.com/microsoftgraph/msgraph-sdk-dotnet) that's used to interact with the Microsoft Graph.
-
-- The following controllers contain methods that use the **GraphServiceClient** to build and send calls to the Microsoft Graph service and process the response.
-  - [UsersController.cs](/Graph-ASPNET-46-Snippets/Microsoft%20Graph%20ASPNET%20Snippets/Controllers/UsersController.cs) 
-  - [MailController.cs](/Graph-ASPNET-46-Snippets/Microsoft%20Graph%20ASPNET%20Snippets/Controllers/MailController.cs)
-  - [EventsController.cs](/Graph-ASPNET-46-Snippets/Microsoft%20Graph%20ASPNET%20Snippets/Controllers/EventsController.cs) 
-  - [FilesController.cs](/Graph-ASPNET-46-Snippets/Microsoft%20Graph%20ASPNET%20Snippets/Controllers/FilesController.cs)  
-  - [GroupsController.cs](/Graph-ASPNET-46-Snippets/Microsoft%20Graph%20ASPNET%20Snippets/Controllers/GroupsController.cs) 
-
-- The following views contain the sample's UI.  
-  - [Users.cshtml](/Graph-ASPNET-46-Snippets/Microsoft%20Graph%20ASPNET%20Snippets/Views/Users/Users.cshtml)  
-  - [Mail.cshtml](/Graph-ASPNET-46-Snippets/Microsoft%20Graph%20ASPNET%20Snippets/Views/Mail/Mail.cshtml)
-  - [Events.cshtml](/Graph-ASPNET-46-Snippets/Microsoft%20Graph%20ASPNET%20Snippets/Views/Events/Events.cshtml) 
-  - [Files.cshtml](/Graph-ASPNET-46-Snippets/Microsoft%20Graph%20ASPNET%20Snippets/Views/Files/Files.cshtml)  
-  - [Groups.cshtml](/Graph-ASPNET-46-Snippets/Microsoft%20Graph%20ASPNET%20Snippets/Views/Groups/Groups.cshtml)
-
-- The following files contain the view models and partial view that are used to parse and display Microsoft Graph data as generic objects (for the purposes of this sample). 
-  - [ResultsViewModel.cs](/Graph-ASPNET-46-Snippets/Microsoft%20Graph%20ASPNET%20Snippets/Models/ResultsViewModel.cs)
-  - [_ResultsPartial.cshtml](/Graph-ASPNET-46-Snippets/Microsoft%20Graph%20ASPNET%20Snippets/Views/Shared/_ResultsPartial.cshtml)  
-
-- The following files contain code used to support incremental consent. For this sample, users are prompted to consent to an initial set of permissions during sign in, and admin permissions separately. 
-  - [AdminController.cs](/Graph-ASPNET-46-Snippets/Microsoft%20Graph%20ASPNET%20Snippets/Controllers/AdminController.cs)
-  - [OAuth2CodeRedeemerMiddleware.cs](/Graph-ASPNET-46-Snippets/Microsoft%20Graph%20ASPNET%20Snippets/Utils/OAuth2CodeRedeemerMiddleware.cs). Custom middleware that redeems an authorization code for access and refresh tokens outside of the sign-in flow. See https://github.com/Azure-Samples/active-directory-dotnet-webapp-openidconnect-v2 for more information about implementing incremental consent.
 
 ## Questions and comments
 
