@@ -125,8 +125,8 @@ Groups: {
                 var memberReq = await Library.Users.Get.profile(memberID);
 
                 return client
-                    .api("/" + groupID + "/" + memberID + "/members/$ref")
-                    .post(memberReq, (err, res) => {console.log(res)});
+                    .api("/groups/" + memberID + "/members/$ref")
+                    .post({"@odata.id": memberID}, (err, res) => {console.log(res)});
             }
     },
 
