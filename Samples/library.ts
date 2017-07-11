@@ -1,13 +1,12 @@
 import { GraphClient } from '../authHelpers';
+import { User } from '@microsoft/microsoft-graph-types'; 
 
 //Library Functions
-
-
 export var Library = {
 Users: {
     Get: {
         profile:
-            async function (userID) {
+            async function (userID: string) {
                 const client = await GraphClient();
 
                 return client
@@ -20,7 +19,7 @@ Users: {
         },
 
         events: 
-            async function(userID) {
+            async function(userID: string) {
                 const client = await GraphClient();
 
                 return client
@@ -33,7 +32,7 @@ Users: {
 	    },
 
         photo: 
-            async function(userID) {
+            async function(userID: string) {
                 const client = await GraphClient();
 
                 return client
@@ -46,7 +45,7 @@ Users: {
 	    },
 
         mail: 
-            async function(userID) {
+            async function(userID: string) {
                 const client = await GraphClient();
 
                 return client
@@ -59,7 +58,7 @@ Users: {
 	    },
 
         driveItems: 
-            async function(userID) {
+            async function(userID: string) {
                 const client = await GraphClient();
 
                 return client
@@ -72,7 +71,7 @@ Users: {
 	    },
 
         trendingItems: 
-            async function(userID) {
+            async function(userID: string) {
                 const client = await GraphClient();
 
                 return client
@@ -86,7 +85,7 @@ Users: {
 
         Groups: {
             memberOf:
-            async function (userID) {
+            async function (userID: string) {
                 const client = await GraphClient();
                 console.log("in memberOf\n");
 
@@ -99,7 +98,7 @@ Users: {
                     });
         },
             members:
-                async function(groupID) {
+                async function(groupID: string) {
                     const client = await GraphClient();
 
                     return client
@@ -120,7 +119,7 @@ Users: {
 Groups: {
     Post: {
         addMember:
-            async function(memberID, groupID) {
+            async function(memberID: string, groupID: string) {
                 const client = await GraphClient();
                 var memberReq = await Library.Users.Get.profile(memberID);
 
@@ -132,11 +131,11 @@ Groups: {
 
     Delete: {
         removeMember:
-            async function(memberID, groupID) {
+            async function(memberID: string, groupID: string) {
                 const client = await GraphClient();
 
                 return client
-                .api("/" + groupID + "/" + memberID + "/members/" + memberID + "/$ref")
+                .api("/groups/" + groupID + "/members/" + memberID + "/$ref")
                 .del((err, res) => {
                         if (err) {
                             console.log(err)

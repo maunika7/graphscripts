@@ -2,12 +2,10 @@
 import { Library } from './library';
 
 //request will include @odata information needed for addMember function, memberID, fromGroupID, and toGroupID
-async function moveUser(context, request)
+export async function moveUser(memberID, toGroupID, fromGroupID)
 {
-    if(context) context.log("Starting function");
-
-    let removed = await Library.Groups.Delete.removeMember(request.memberID, request.fromGroupID);
-    let added = await Library.Groups.Post.addMember(request.memberID, request.toGroupID);
+    let removed = await Library.Groups.Delete.removeMember(memberID, fromGroupID);
+    let added = await Library.Groups.Post.addMember(memberID, toGroupID);
 
     let response = {
         status: 200,
@@ -16,6 +14,5 @@ async function moveUser(context, request)
         }
     };
     return response;
-
 
 }
