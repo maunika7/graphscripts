@@ -2,23 +2,18 @@
 
 ## Table of contents
 
+* [Introduction](#introduction)
 * [Prerequisites](#prerequisites)
 * [Register the application](#register-the-application)
 * [Build and run the sample](#build-and-run-the-sample)
-* [Code of note](#code-of-note)
+* [Examples](#code-of-note)
 * [Questions and comments](#questions-and-comments)
 * [Contributing](#contributing)
 * [Additional resources](#additional-resources)
 
-This sample project provides a repository of code snippets that use the Microsoft Graph to perform common tasks, such as sending email, managing groups, and other activities from within an ASP.NET MVC app. It uses the [Microsoft Graph .NET Client SDK](https://github.com/microsoftgraph/msgraph-sdk-dotnet) to work with data returned by the Microsoft Graph. 
+## Introduction
+This sample project provides a repository of code snippets that use the Microsoft Graph to perform common tasks, such as sending email, managing groups, and other activities from within an ASP.NET MVC app. 
 
-The sample uses the [Microsoft Authentication Library (MSAL)](https://www.nuget.org/packages/Microsoft.Identity.Client/) for authentication. The MSAL SDK provides features for working with the [Azure AD v2.0 endpoint](https://azure.microsoft.com/en-us/documentation/articles/active-directory-appmodel-v2-overview), which enables developers to write a single code flow that handles authentication for both work or school (Azure Active Directory) and personal (Microsoft) accounts.
-
-In addition, the sample shows how to request tokens incrementally--a feature supported by the Azure AD v2.0 endpoint. Users consent to an initial set of permission scopes during sign in, but can consent to other scopes later. In the case of this sample, any valid user can sign in, but admininstrators can later consent to the admin-level scopes required for certain operations.
-
-The sample uses the [ASP.NET OpenId Connect OWIN middleware](https://www.nuget.org/packages/Microsoft.Owin.Security.OpenIdConnect/) for sign in and during the initial token acquisition. The sample also implements custom Owin middleware to exchange an authorization code for access and refresh tokens outside of the sign-in flow. The custom middleware calls MSAL to build the authorization request URI and handles the redirects. To learn more about incremental consent, see [Integrate Microsoft identity and the Microsoft Graph into a web application using OpenID Connect](https://github.com/Azure-Samples/active-directory-dotnet-webapp-openidconnect-v2).
-
- > **Note** The MSAL SDK is currently in prerelease, and as such should not be used in production code. The custom middleware and token cache have limitations that make them unsuitable for production code. For example, the middleware has a hard dependency on the cache, and the cache is session-based. The code is used here for illustrative purposes only.
 
 ## Prerequisites
 
