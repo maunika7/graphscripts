@@ -7,7 +7,6 @@ This sample project provides a repository of code snippets that use the Microsof
 
 ## Table of contents
 
-* [Introduction](#introduction)
 * [Prerequisites](#prerequisites)
 * [Register the application](#register-the-application)
 * [Build and run the sample](#build-and-run-the-sample)
