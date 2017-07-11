@@ -1,5 +1,10 @@
 # Using Azure Functions to expand the Microsoft Graph API ecosystem
 
+
+## Introduction
+This sample project provides a repository of code snippets that use the Microsoft Graph to perform common tasks, such as sending email, managing groups, and other activities from within an ASP.NET MVC app. 
+
+
 ## Table of contents
 
 * [Introduction](#introduction)
@@ -10,10 +15,6 @@
 * [Questions and comments](#questions-and-comments)
 * [Contributing](#contributing)
 * [Additional resources](#additional-resources)
-
-## Introduction
-This sample project provides a repository of code snippets that use the Microsoft Graph to perform common tasks, such as sending email, managing groups, and other activities from within an ASP.NET MVC app. 
-
 
 ## Prerequisites
 
