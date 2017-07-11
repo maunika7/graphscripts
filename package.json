@@ -1,0 +1,28 @@
+{
+  "name": "azure-function-vacation-day",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dan-silver/azure-function-samples.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dan-silver/azure-function-samples/issues"
+  },
+  "homepage": "https://github.com/dan-silver/azure-function-samples#readme",
+  "devDependencies": {
+    "@microsoft/microsoft-graph-types": "^0.4.1",
+    "typescript": "^2.3.1"
+  },
+  "dependencies": {
+    "node-fetch": "^1.6.3",
+    "@microsoft/microsoft-graph-client": "^0.4.1"
+  }
+}
