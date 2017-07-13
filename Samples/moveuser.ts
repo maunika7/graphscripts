@@ -8,11 +8,9 @@ export async function moveUser(memberID, toGroupID, fromGroupID)
     let added = await Library.Groups.Post.addMember(memberID, toGroupID);
 
     let response = {
-        status: 200,
-        body: {
-           removed
-        }
+        status: 200
     };
+    
     return response;
 
 }
