@@ -8,8 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const authHelpers_1 = require("../authHelpers");
 //Library Functions
+const authHelpers_1 = require("../authHelpers");
 exports.Library = {
     Users: {
         Get: {
@@ -113,6 +113,34 @@ exports.Library = {
                 }
             }
         },
+        Post: {
+            createUser: function (userData) {
+                return __awaiter(this, void 0, void 0, function* () {
+                    const client = yield authHelpers_1.GraphClient();
+                    return client
+                        .api("users")
+                        .post({ userData }, (err, res) => { console.log(res); });
+                });
+            },
+            sendMail: function (memberID, message) {
+                return __awaiter(this, void 0, void 0, function* () {
+                    const client = yield authHelpers_1.GraphClient();
+                    return client
+                        .api("users/" + memberID + "/sendmail")
+                        .post({ "message": message }, (err, res) => { console.log(res); });
+                });
+            },
+            OneNote: {
+                createNotebook: function (memberID, notebookName) {
+                    return __awaiter(this, void 0, void 0, function* () {
+                        const client = yield authHelpers_1.GraphClient();
+                        return client
+                            .api("users/" + memberID + "/onenote/notebooks")
+                            .post({ "display name": notebookName }, (err, res) => { console.log(res); });
+                    });
+                }
+            }
+        }
     },
     Groups: {
         Post: {

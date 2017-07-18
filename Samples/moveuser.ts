@@ -1,4 +1,4 @@
-//macros will include the library that allows graph calls to be made easily
+//scripts will include the library that allows graph calls to be made easily
 import { Library } from './library';
 
 //request will include @odata information needed for addMember function, memberID, fromGroupID, and toGroupID
@@ -8,7 +8,11 @@ export async function moveUser(memberID, toGroupID, fromGroupID)
     let added = await Library.Groups.Post.addMember(memberID, toGroupID);
 
     let response = {
-        status: 200
+        status: 200,
+        body: {
+            "removedMember": removed,
+            "addedMember": added
+        }
     };
     
     return response;

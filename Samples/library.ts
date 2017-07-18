@@ -1,7 +1,6 @@
-import { GraphClient } from '../authHelpers';
-import { User } from '@microsoft/microsoft-graph-types'; 
-
 //Library Functions
+import { GraphClient } from '../authHelpers';
+
 export var Library = {
 Users: {
     Get: {
@@ -114,6 +113,37 @@ Users: {
 
 
     },
+
+    Post: {
+        createUser:
+            async function(userData: string) {
+                const client = await GraphClient();
+
+                return client
+                    .api("users")
+                    .post({userData}, (err, res) => {console.log(res)});
+            },
+        sendMail:
+            async function(memberID: string, message: string) {
+                const client = await GraphClient();
+
+                return client
+                    .api("users/" + memberID + "/sendmail")
+                    .post({"message": message}, (err, res) => {console.log(res)});
+
+            },
+        OneNote: {
+            createNotebook:
+                async function(memberID: string, notebookName: string) {
+                    const client = await GraphClient();
+
+                    return client
+                        .api("users/" + memberID + "/onenote/notebooks")
+                        .post({"display name": notebookName}, (err, res) => {console.log(res)});
+                }
+        }
+
+    }
 },
 
 Groups: {
