@@ -1,5 +1,5 @@
 # Using Azure Functions to expand the Microsoft Graph API ecosystem
-
+[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
 
 ## Introduction
 This sample project provides a repository of code snippets that use the Microsoft Graph to perform common tasks, such as sending email, managing groups, and other activities from within an ASP.NET MVC app. 
