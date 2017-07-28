@@ -1,0 +1,326 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "components_name": {
+            "defaultValue": "",
+            "type": "String"
+        },
+        "storageAccounts_name": {
+            "defaultValue": "",
+            "type": "String"
+        },
+        "serverfarms_name": {
+            "defaultValue": "",
+            "type": "String"
+        },
+        "sites_name": {
+            "defaultValue": "",
+            "type": "String"
+        },
+        "config_web_name": {
+            "defaultValue": "",
+            "type": "String"
+        },
+        "hostNameBindings.azurewebsites.net_name": {
+            "defaultValue": "",
+            "type": "String"
+        },
+         "App ID": {
+            "defaultValue": "",
+            "type": "String"
+        }, 
+        "App Secret": {
+            "defaultValue": "",
+            "type": "String"
+        }, 
+         "Git URL": {
+            "defaultValue": "",
+            "type": "String"
+        }, 
+        "Git Username": {
+            "defaultValue": "",
+            "type": "String"
+        }, 
+         "Git Password": {
+            "defaultValue": "",
+            "type": "String"
+        }
+    },
+    "variables": {
+        "V-NetPrefix": "10.0.0.0/16",
+        "V-NetSubnet1Name": "Subnet-1",
+        "V-NetSubnet1Prefix": "10.0.0.0/24",
+        "V-NetSubnet2Name": "Subnet-2",
+        "V-NetSubnet2Prefix": "10.0.1.0/24"
+    },
+    "resources": [
+        {
+            "comments": "Generalized from resource: '/subscriptions/ccfa9830-4d8a-4298-a498-2b43de307834/resourceGroups/TrentGraphScripts/providers/microsoft.insights/components/TrentGraphScripts'.",
+            "type": "microsoft.insights/components",
+            "kind": "web",
+            "name": "[parameters('components_name')]",
+            "apiVersion": "2014-04-01",
+            "location": "eastus",
+            "tags": {
+                "hidden-link:/subscriptions/ccfa9830-4d8a-4298-a498-2b43de307834/resourceGroups/TrentGraphScripts/providers/Microsoft.Web/sites/TrentGraphScripts": "Resource"
+            },
+            "scale": null,
+            "properties": {
+                "ApplicationId": "[parameters('components_name')]"
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/ccfa9830-4d8a-4298-a498-2b43de307834/resourceGroups/trentgraphscripts/providers/Microsoft.Storage/storageAccounts/trentgraphscripb41b'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "eastus",
+            "tags": {},
+            "scale": null,
+            "properties": {},
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/ccfa9830-4d8a-4298-a498-2b43de307834/resourceGroups/TrentGraphScripts/providers/Microsoft.Web/serverfarms/EastUSPlan'.",
+            "type": "Microsoft.Web/serverfarms",
+            "sku": {
+                "name": "Y1",
+                "tier": "Dynamic",
+                "size": "Y1",
+                "family": "Y",
+                "capacity": 0
+            },
+            "kind": "functionapp",
+            "name": "[parameters('serverfarms_name')]",
+            "apiVersion": "2016-09-01",
+            "location": "East US",
+            "scale": null,
+            "properties": {
+                "name": "[parameters('serverfarms_name')]",
+                "workerTierName": null,
+                "adminSiteName": null,
+                "hostingEnvironmentProfile": null,
+                "perSiteScaling": false,
+                "reserved": false,
+                "targetWorkerCount": 0,
+                "targetWorkerSizeId": 0
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/ccfa9830-4d8a-4298-a498-2b43de307834/resourceGroups/TrentGraphScripts/providers/Microsoft.Web/sites/TrentGraphScripts'.",
+            "type": "Microsoft.Web/sites",
+            "kind": "functionapp",
+            "name": "[parameters('sites_name')]",
+            "apiVersion": "2016-08-01",
+            "location": "East US",
+            "scale": null,
+            "properties": {
+                "enabled": true,
+                "hostNameSslStates": [
+                    {
+                        "name": "[concat(parameters('sites_name'),'trentgraphscripts.azurewebsites.net')]",
+                        "sslState": "Disabled",
+                        "virtualIP": null,
+                        "thumbprint": null,
+                        "toUpdate": null,
+                        "hostType": "Standard"
+                    },
+                    {
+                        "name": "[concat(parameters('sites_name'),'trentgraphscripts.scm.azurewebsites.net')]",
+                        "sslState": "Disabled",
+                        "virtualIP": null,
+                        "thumbprint": null,
+                        "toUpdate": null,
+                        "hostType": "Repository"
+                    }
+                ],
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_name'))]",
+                "reserved": false,
+                "siteConfig": null,
+                "scmSiteAlsoStopped": false,
+                "hostingEnvironmentProfile": null,
+                "clientAffinityEnabled": false,
+                "clientCertEnabled": false,
+                "hostNamesDisabled": false,
+                "containerSize": 1536,
+                "dailyMemoryTimeQuota": 0,
+                "cloningInfo": null
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/ccfa9830-4d8a-4298-a498-2b43de307834/resourceGroups/TrentGraphScripts/providers/Microsoft.Web/sites/TrentGraphScripts/config/web'.",
+            "type": "Microsoft.Web/sites/config",
+            "name": "[parameters('config_web_name')]",
+            "apiVersion": "2016-08-01",
+            "location": "East US",
+            "scale": null,
+            "properties": {
+                "numberOfWorkers": 1,
+                "defaultDocuments": [
+                    "Default.htm",
+                    "Default.html",
+                    "Default.asp",
+                    "index.htm",
+                    "index.html",
+                    "iisstart.htm",
+                    "default.aspx",
+                    "index.php",
+                    "hostingstart.html"
+                ],
+                "netFrameworkVersion": "v4.0",
+                "phpVersion": "5.6",
+                "pythonVersion": "",
+                "nodeVersion": "",
+                "linuxFxVersion": "",
+                "requestTracingEnabled": false,
+                "remoteDebuggingEnabled": false,
+                "remoteDebuggingVersion": null,
+                "httpLoggingEnabled": false,
+                "logsDirectorySizeLimit": 35,
+                "detailedErrorLoggingEnabled": false,
+                "publishingUsername": "$TrentGraphScripts",
+                "publishingPassword": null,
+                "appSettings": null,
+                "metadata": null,
+                "connectionStrings": null,
+                "machineKey": null,
+                "handlerMappings": null,
+                "documentRoot": null,
+                "scmType": "None",
+                "use32BitWorkerProcess": true,
+                "webSocketsEnabled": false,
+                "alwaysOn": false,
+                "javaVersion": null,
+                "javaContainer": null,
+                "javaContainerVersion": null,
+                "appCommandLine": "",
+                "managedPipelineMode": "Integrated",
+                "virtualApplications": [
+                    {
+                        "virtualPath": "/",
+                        "physicalPath": "site\\wwwroot",
+                        "preloadEnabled": false,
+                        "virtualDirectories": null
+                    }
+                ],
+                "winAuthAdminState": 0,
+                "winAuthTenantState": 0,
+                "customAppPoolIdentityAdminState": false,
+                "customAppPoolIdentityTenantState": false,
+                "runtimeADUser": null,
+                "runtimeADUserPassword": null,
+                "loadBalancing": "LeastRequests",
+                "routingRules": [],
+                "experiments": {
+                    "rampUpRules": []
+                },
+                "limits": null,
+                "autoHealEnabled": false,
+                "autoHealRules": {
+                    "triggers": null,
+                    "actions": null
+                },
+                "tracingOptions": null,
+                "vnetName": "",
+                "siteAuthEnabled": true,
+                "siteAuthSettings": {
+                    "enabled": null,
+                    "unauthenticatedClientAction": null,
+                    "tokenStoreEnabled": null,
+                    "allowedExternalRedirectUrls": null,
+                    "defaultProvider": null,
+                    "clientId": "e2a04dd7-b447-41ba-9c7e-f590b60a90c0",
+                    "clientSecret": null,
+                    "issuer": "https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/",
+                    "allowedAudiences": null,
+                    "additionalLoginParams": null,
+                    "isAadAutoProvisioned": false,
+                    "googleClientId": null,
+                    "googleClientSecret": null,
+                    "googleOAuthScopes": null,
+                    "facebookAppId": null,
+                    "facebookAppSecret": null,
+                    "facebookOAuthScopes": null,
+                    "twitterConsumerKey": null,
+                    "twitterConsumerSecret": null,
+                    "microsoftAccountClientId": null,
+                    "microsoftAccountClientSecret": null,
+                    "microsoftAccountOAuthScopes": null
+                },
+                "cors": {
+                    "allowedOrigins": [
+                        "https://functions.azure.com",
+                        "https://functions-staging.azure.com",
+                        "https://functions-next.azure.com"
+                    ]
+                },
+                "push": null,
+                "apiDefinition": null,
+                "autoSwapSlotName": null,
+                "localMySqlEnabled": false,
+                "ipSecurityRestrictions": null
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/ccfa9830-4d8a-4298-a498-2b43de307834/resourceGroups/TrentGraphScripts/providers/Microsoft.Web/sites/TrentGraphScripts/hostNameBindings/trentgraphscripts.azurewebsites.net'.",
+            "type": "Microsoft.Web/sites/hostNameBindings",
+            "name": "[parameters('hostNameBindings.azurewebsites.net_name')]",
+            "apiVersion": "2016-08-01",
+            "location": "East US",
+            "scale": null,
+            "properties": {
+                "siteName": "TrentGraphScripts",
+                "domainId": null,
+                "hostNameType": "Verified"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_name'))]"
+            ]
+        },
+        {
+            "name": "V-Net",
+            "type": "Microsoft.Network/virtualNetworks",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [],
+            "tags": {
+                "displayName": "V-Net"
+            },
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[variables('V-NetPrefix')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[variables('V-NetSubnet1Name')]",
+                        "properties": {
+                            "addressPrefix": "[variables('V-NetSubnet1Prefix')]"
+                        }
+                    },
+                    {
+                        "name": "[variables('V-NetSubnet2Name')]",
+                        "properties": {
+                            "addressPrefix": "[variables('V-NetSubnet2Prefix')]"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
