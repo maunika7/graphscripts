@@ -2,8 +2,9 @@
 import { Library } from './library';
 
 //request will include @odata information needed for addMember function, memberID, fromGroupID, and toGroupID
-export async function moveUser(memberID, toGroupID, fromGroupID)
+export async function moveUser(memberID, fromGroupID, toGroupID)
 {
+
     let removed = await Library.Groups.Delete.removeMember(memberID, fromGroupID);
     let added = await Library.Groups.Post.addMember(memberID, toGroupID);
 

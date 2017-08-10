@@ -7,7 +7,7 @@ export async function main (context, request) {
 
     //moves one user from one group to another
     let response = await moveUser(request.body.memberID, request.body.fromGroupID, request.body.toGroupID);
-    
+
     //onboards a new user by creating the user, adding them to a group, creating a onenote for them, and sending them a welcome email
     //let response = await onboardNewUser(request.body.userData, request.body.groupID, request.body.notebookName, request.body.message);
 

@@ -17,11 +17,10 @@ exports.Library = {
                 return __awaiter(this, void 0, void 0, function* () {
                     const client = yield authHelpers_1.GraphClient();
                     return client
-                        .api(userID)
+                        .api("/users/" + userID)
                         .get()
                         .then((res) => {
-                        let profile = res.value;
-                        return profile;
+                        return res;
                     });
                 });
             },
@@ -32,8 +31,7 @@ exports.Library = {
                         .api(userID + "/events")
                         .get()
                         .then((res) => {
-                        let events = res.value;
-                        return events;
+                        return res;
                     });
                 });
             },
@@ -44,8 +42,7 @@ exports.Library = {
                         .api(userID + "/photo/$value")
                         .get()
                         .then((res) => {
-                        let photo = res.value;
-                        return photo;
+                        return res;
                     });
                 });
             },
@@ -56,8 +53,7 @@ exports.Library = {
                         .api(userID + "/messages")
                         .get()
                         .then((res) => {
-                        let messages = res.value;
-                        return messages;
+                        return res;
                     });
                 });
             },
@@ -68,8 +64,7 @@ exports.Library = {
                         .api(userID + "/drive/root/children")
                         .get()
                         .then((res) => {
-                        let driveItems = res.value;
-                        return driveItems;
+                        return res;
                     });
                 });
             },
@@ -80,8 +75,7 @@ exports.Library = {
                         .api(userID + "/insights/trending")
                         .get()
                         .then((res) => {
-                        let trendingItems = res.value;
-                        return trendingItems;
+                        return res;
                     });
                 });
             },
@@ -94,8 +88,7 @@ exports.Library = {
                             .api(userID + "/memberOf")
                             .get()
                             .then((res) => {
-                            let groups = res.value;
-                            return groups;
+                            return res;
                         });
                     });
                 },
@@ -106,8 +99,7 @@ exports.Library = {
                             .api("/groups/" + groupID + "/members")
                             .get()
                             .then((res) => {
-                            let members = res.value;
-                            return members;
+                            return res;
                         });
                     });
                 }
@@ -119,7 +111,10 @@ exports.Library = {
                     const client = yield authHelpers_1.GraphClient();
                     return client
                         .api("users")
-                        .post({ userData }, (err, res) => { console.log(res); });
+                        .post({ userData })
+                        .then((res) => {
+                        return res;
+                    });
                 });
             },
             sendMail: function (memberID, message) {
@@ -127,7 +122,10 @@ exports.Library = {
                     const client = yield authHelpers_1.GraphClient();
                     return client
                         .api("users/" + memberID + "/sendmail")
-                        .post({ "message": message }, (err, res) => { console.log(res); });
+                        .post({ "message": message })
+                        .then((res) => {
+                        return res;
+                    });
                 });
             },
             OneNote: {
@@ -136,7 +134,10 @@ exports.Library = {
                         const client = yield authHelpers_1.GraphClient();
                         return client
                             .api("users/" + memberID + "/onenote/notebooks")
-                            .post({ "display name": notebookName }, (err, res) => { console.log(res); });
+                            .post({ "display name": notebookName })
+                            .then((res) => {
+                            return res;
+                        });
                     });
                 }
             }
@@ -149,8 +150,11 @@ exports.Library = {
                     const client = yield authHelpers_1.GraphClient();
                     var memberReq = yield exports.Library.Users.Get.profile(memberID);
                     return client
-                        .api("/groups/" + memberID + "/members/$ref")
-                        .post({ "@odata.id": memberID }, (err, res) => { console.log(res); });
+                        .api("/groups/" + groupID + "/members/$ref")
+                        .post({ "@odata.id": "https://graph.microsoft.com/beta/directoryObjects/" + memberID })
+                        .then((res) => {
+                        return res;
+                    });
                 });
             }
         },
@@ -160,12 +164,9 @@ exports.Library = {
                     const client = yield authHelpers_1.GraphClient();
                     return client
                         .api("/groups/" + groupID + "/members/" + memberID + "/$ref")
-                        .del((err, res) => {
-                        if (err) {
-                            console.log(err);
-                            return;
-                        }
-                        console.log(res);
+                        .del()
+                        .then((res) => {
+                        return res;
                     });
                 });
             }

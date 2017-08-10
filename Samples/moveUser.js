@@ -11,7 +11,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //scripts will include the library that allows graph calls to be made easily
 const library_1 = require("./library");
 //request will include @odata information needed for addMember function, memberID, fromGroupID, and toGroupID
-function moveUser(memberID, toGroupID, fromGroupID) {
+function moveUser(memberID, fromGroupID, toGroupID) {
     return __awaiter(this, void 0, void 0, function* () {
         let removed = yield library_1.Library.Groups.Delete.removeMember(memberID, fromGroupID);
         let added = yield library_1.Library.Groups.Post.addMember(memberID, toGroupID);
